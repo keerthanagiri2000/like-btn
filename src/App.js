@@ -25,7 +25,7 @@ export default function App() {
       src:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRv2FbLujpnhvaj6DrDVwRr2NJYKoAY2gK3lGYDXBRyHxT72Bi1fNB2tiCianSFPDsLc9c&usqp=CAU",
       name: "Oh Manapanne",
-      summary:"A remake of the Telugu film Pelli Choopulu (2016), it stars Harish Kalyan and Priya Bhavani Shankar as a boy and girl who meet during a matchmaking event. How their aspirations bring them together forms the rest of the story.",
+      summary:"A remake of the Telugu film Pelli Choopulu (2016),it stars Harish Kalyan and Priya Bhavani Shankar as a boy and girl who meet during a matchmaking event. How their aspirations bring them together forms the rest of the story.",
       rating: "⭐⭐⭐⭐⭐"
     },
     {
