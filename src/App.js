@@ -1,7 +1,21 @@
 import { useState }  from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import Badge from '@mui/material/Badge';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
 import "./App.css";
+import {double, Msg} from "./Msg";
+import { Switch, Route, Link } from "react-router-dom";
+import {AddColor} from "./AddColor";
+import useWindowSize from 'react-use/lib/useWindowSize';
+import Confetti from 'react-confetti';
+
+
 export default function App() {
   const Movie_List = [
     {
@@ -51,7 +65,28 @@ export default function App() {
   const [rating, setRating]=useState("")
   return (
     <div className="App">
-      <div className="movie-form-container">
+      {/*<Msg/>*/}
+      <ul>
+        
+        <li>
+          <Link to="/movies">Movie</Link>
+        </li>
+        <li>
+          {/* Change the url bar but dont refresh */}
+          <Link to="/color-game">AddColor</Link>
+        </li>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/tictactoe">TicTacToe</Link>
+        </li>
+      </ul>
+      
+      <Switch>
+      
+        <Route path="/movies">
+          <div className="movie-form-container">
         <TextField id="standard-basic" label="Poster" variant="standard" onChange={(event)=>setPoster(event.target.value)} />
         <TextField id="standard-basic" label="Name" variant="standard" onChange={(event)=>setName(event.target.value)} />
         <TextField id="standard-basic" label="Summary" variant="standard" onChange={(event)=>setSummary(event.target.value)} />
@@ -68,16 +103,30 @@ export default function App() {
            setMovielist([...movielist, newMovie]);
           }}
            variant="contained">Add Movie</Button>
-      </div>
-      
-      <div className="movie-list">
+          </div>
+          <div className="movie-list">
       {movielist.map((nm) => (
         <Movie poster={nm.poster} name={nm.name} rating={nm.rating} summary={nm.summary} />
       ))}
-      </div>
-     {/* <AddColor/>*/}
-    </div>
-  );
+          </div>
+        </Route>
+        <Route path="/color-game">
+           <AddColor />
+        </Route>
+        <Route path="/tictactoe">
+            <TicTacToe />
+        </Route>
+        <Route path="/">
+            <h2>Welcome to the movie App😏😏😣🙄</h2> 
+        </Route>
+        
+      </Switch>
+      
+
+      
+    {/*<AddColor/>*/}
+  </div>
+);
 }
 
 function Movie({ poster, name, rating, summary }) {
@@ -85,59 +134,157 @@ function Movie({ poster, name, rating, summary }) {
   const [dislike, setDislike]=useState(0);
   const styles={color: rating >8.5? "green" : "red"}
   const [show, setShow]= useState(true);
-  const divStyle={display: show ? "none": "block"}
+  //conditional styling
+  //const divStyle={display: show ? "none": "block"}
   const btnStyle={
     marginTop: "10px",
     backgroundColor:"gray"
   }
   return (
-    <div className="movie-list">
+    <Card className="movie-list">
     <div className="movie-container">
       <img src={poster} alt="image-pic" className="movie-poster"/>
-      <h3 className="movie-name"> {name}</h3>
-      <div >
-         <Button style={btnStyle} variant="contained" onClick={()=> setShow((s)=>!s)}>Toggle Description</Button>
-         <p style={divStyle} className="movie-summary"> {summary}</p>
+      <CardContent>
+      <h3 className="movie-name"> 
+      {name}
+      <IconButton 
+        color="primary"
+        onClick={()=>setShow(!show)}
+        aria-label="Toggle summary"
+      >
+      {show ? <ExpandLessIcon /> : <ExpandMoreIcon/>}
+    </IconButton>
+      </h3>
+
+      <div>
+         {/*<Button style={btnStyle} variant="contained" onClick={()=> setShow(!show)}>Toggle Description</Button>*/}
+         {/*conditional rendering*/}
+        {/* <p style={divStyle} className="movie-summary"> {summary}</p> */}
+         {show ? <p className="movie-summary"> {summary}</p> :""}
       </div>
-      <p className="movie-rating" style={styles} ><i class="fa fa-star" aria-hidden="true"></i>{rating} </p>
-    <div className="movie-button">
-      <button className="movie-likebtn" onClick={()=>setLike(like + 1)}><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {like}</button>
-      <button className="movie-likebtn" onClick={()=>setDislike(dislike + 1)}><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> {dislike}</button>
-    </div>
-  </div>
-  </div>
-  );
-}
-
-/*function AddColor(){
-  //using hook
-  const [color, setColor]= useState("orange")
-  const styles={
-    backgroundColor:color,
-  }
-
-  const [colorList, setColorlist]=useState(["yellow","green","violet","blue"])
-
-  //capture typing event-onchange
-
-  return(
-    <div>
-      <input value={color} style={styles} onChange={(event)=>setColor(event.target.value)} placeholder="Enter the color" />
-      <button onClick={()=>setColorlist([...colorList, color])}>Add Color</button>
       
-      {colorList.map((clr)=>(<ColorBox color={clr}/>))}
-    </div>
-  )
-}
+      <p className="movie-rating" style={styles} ><i class="fa fa-star" aria-hidden="true"></i>{rating} </p>
+      </CardContent>
+      <CardActions>
+    <div className="movie-button">
+    <IconButton 
+    className="movie-likebtn" 
+    onClick={()=>setLike(like + 1)}
+    aria-label="like button"
+    color="primary">
+      <Badge badgeContent={like} color="primary">
+      👍
+      </Badge>
+    </IconButton>
 
-function ColorBox({color}){
-  const styles={
-    backgroundColor:color,
-    width:"170px",
-    height:"25px",
-    marginTop:"10px"
+    <IconButton 
+    className="movie-likebtn" 
+    onClick={()=>setDislike(dislike + 1)}
+    aria-label="delete"
+    color="error">
+      <Badge badgeContent={dislike} color="error">
+      👎
+      </Badge>
+    </IconButton>
+      
+    </div>
+    </CardActions>
+  </div>
+  
+  </Card>
+  );
   }
-  return(
-    <div style={styles}></div>
-  )
-}*/
+
+  //loop-map
+  //parent component-> child component(data has to be passed)->props
+  function TicTacToe(){
+    const [board, setBoard]=useState([null,null,null,null,null,null,null,null,null]);
+    
+    const decideWinner=(board)=>{
+      const Lines=[
+      [0,1,2],
+      [3,4,5],
+      [6,7,8],
+      [0,3,6],
+      [1,4,7],
+      [2,5,8],
+      [0,4,8],
+      [2,4,6],
+      ];
+      for(let i=0;i<Lines.length;i++){
+        const [a, b, c] = Lines[i];
+
+        if(board[a] !== null && board[a]===board[b] && board[b]===board[c]){
+              console.log("Winner is", board[a]);
+              return board[a];
+        }
+      }
+      return null;
+    };
+    const winner= decideWinner(board);
+
+    const [isXturn, setIsXTurn]=useState(true);
+
+    const handleClick=(index)=>{
+      //copy of the board and replace with "x" in the clickeed game box
+      if(winner === null && board[index] === null){
+        const boardCopy=[...board];
+        console.log(boardCopy, index);
+        boardCopy[index]= isXturn ? "X": "O";
+        setBoard(boardCopy);
+        setIsXTurn(!isXturn);
+      }
+      
+     // console.log(index);
+    };
+   const { width, height } =useWindowSize()
+    return (
+      <div className="full-game">
+      {winner ? <Confetti width={width} height={height} gravity={0.01} /> :''}
+        <div className="board">
+            {board.map((val,index)=>(
+             <GameBox val={val} onPlayerClick={()=> handleClick(index)}/>
+              ))}
+        </div>
+        {winner ? <h2>Winner is: {winner}</h2> :''}
+        <button
+        onClick={()=>{
+          setBoard([null,null,null,null,null,null,null,null,null])
+          setIsXTurn(true);
+        }}
+        >Restart</button>
+      </div>
+        
+    );
+  }
+
+  //{val}-> object destructuring
+  function GameBox({val, onPlayerClick}){
+    //const val="X";
+    //const [val, setVal]=useState(null);
+    const styles ={
+      color: val === "X" ? "green" : "white",
+    };
+    return <div 
+    //onClick={()=>setVal(val === "X" ? "O":"X")}
+    onClick={()=> onPlayerClick()}
+    style={styles} className="game-box">
+    {val}
+    </div>
+  }
+//multi page-advantage
+//1.performance
+//2.ease of access-organised
+//3.sharing
+
+//SPA 
+//1.no refresh
+//2.smooth experience
+
+//react router dom -it is a conditional rendering
+//1.browserrouter-modern browser-added features
+//2.hashrouter-older browser(IE)-less features
+
+//as-renaming
+//hashrouter->URL will contain #
+//link-change the url without refresh

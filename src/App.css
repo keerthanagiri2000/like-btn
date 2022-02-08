@@ -4,6 +4,7 @@
   gap:16px;
   flex-wrap: wrap;
   justify-content: space-around;
+  height: min-content;
 }
 .movie-container{
   width: 340px;
@@ -20,28 +21,41 @@
 .movie-summary{
   margin-top: 0;
   width: 320px;
-  height: 130px;
+  
   font-size: 16px;
 }
 .movie-button{
   display: flex;
   gap: 10px;
 }
-.movie-likebtn{
-  width: 70px;
-  height: 30px;
-  font-weight: 600;
-  font-size: 15px;
-  border: none;
-  border-radius: 8px;
-  }
-  .movie-form-container{
+
+.movie-form-container{
     display: flex;
     flex-direction: column;
     gap: 15px;
     margin: 10px;
-    }
-    .toggle-btn{
-      margin-top: 20px;
-    }
-    
+}
+.toggle-btn{
+    margin-top: 20px;
+}
+ .game-box{
+   height:120px;
+   width:120px;
+   border:2px solid black;
+   background-color: rgb(23, 23, 114);
+   font-size:90px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   cursor:pointer;
+}   
+.board{
+  display:flex;
+  flex-wrap: wrap;
+  width:380px;
+}
+.full-game{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
