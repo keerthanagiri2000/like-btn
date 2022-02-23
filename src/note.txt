@@ -1,0 +1,16 @@
+passing prop to each level
+
+prop drilling:
+  one component to another compont passing the props.
+
+context: The data in context available to every component.
+ cont context=createContext (null);
+
+3steps:
+->creating  - createContext
+->publisher - provider - context.provider
+->subscriber - useContext - useContext(context)
+
+
+using Context avoid props drilling.
+context mainly used in theming.

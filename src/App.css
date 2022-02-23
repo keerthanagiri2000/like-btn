@@ -59,3 +59,25 @@
   align-items: center;
   flex-direction: column;
 }
+.not-found{
+  text-align:center;
+  font-size: 50px;
+  margin: 0;
+}
+.div-not-page-found{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+.not-found-image{
+  width: 800px;
+  height: 600px;
+}
+.movie-specs{
+  display: inline-flex;
+  flex-wrap: wrap;
+}
+.route-container{
+  margin: 20px;
+}
