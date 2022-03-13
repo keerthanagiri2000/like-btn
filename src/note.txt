@@ -14,3 +14,9 @@ context: The data in context available to every component.
 
 using Context avoid props drilling.
 context mainly used in theming.
+
+CRUD:
+create->POST
+read-> GET
+update->PUT
+delete->DELETE

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -17,6 +17,13 @@ export function Movie({ poster, name, rating, summary, deleteButton, id, editBut
   const history= useHistory();
   //conditional styling
   //const divStyle={display: show ? "none": "block"}
+
+  useEffect(()=>{
+    console.log("Like is update", like);
+  }, [like, dislike]);
+
+  const incrementLike=() => setLike(like + 1);
+  const incrementDislike=() => setDislike(dislike + 1);
   
   return (
     <Card className="movie-list">
@@ -54,7 +61,7 @@ export function Movie({ poster, name, rating, summary, deleteButton, id, editBut
           <div className="movie-button">
             <IconButton
               className="movie-likebtn"
-              onClick={() => setLike(like + 1)}
+              onClick={incrementLike}
               aria-label="like button"
               color="primary">
               <Badge badgeContent={like} color="primary">
@@ -64,7 +71,7 @@ export function Movie({ poster, name, rating, summary, deleteButton, id, editBut
 
             <IconButton
               className="movie-likebtn"
-              onClick={() => setDislike(dislike + 1)}
+              onClick={incrementDislike}
               aria-label="delete"
               color="error">
               <Badge badgeContent={dislike} color="error">

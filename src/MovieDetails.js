@@ -1,15 +1,24 @@
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
-import SendIcon from '@mui/icons-material/Send';
-import Stack from '@mui/material/Stack';
+import {useState, useEffect} from "react";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import {useHistory} from "react-router-dom"
+import {useHistory} from "react-router-dom";
+import {API} from "./global";
 
 export function MovieDetails({ movielist }) {
   const { id } = useParams(); // extracting parameter from the URL
   console.log(id, movielist);
-  const movie = movielist[id];
+  const [movie, setMovie] =useState ({});
+
+  useEffect(()=>{
+    fetch(`${API}/movies/${id}`,{
+    method: "GET",
+  }) // return promise
+  .then(data => data.json()) //response object
+  .then((mv)=> setMovie(mv))
+  .catch((err)=>console.log(err));
+  }, []) ;
+
   const history = useHistory();
   return (
     <div>
